@@ -1,0 +1,100 @@
+---
+import { getCollection } from "astro:content";
+import MainLayout from "../../layouts/MainLayout.astro";
+
+interface Article {
+  id: string;
+  slug: string;
+  body: string;
+  collection: "articles";
+  data: {
+    title: string;
+    pubDate: Date;
+    description?: string;
+    category?: string[];
+    author: string;
+    image?: {
+      url: string;
+      alt: string;
+    };
+    tags?: string[];
+    draft?: boolean;
+  };
+}
+
+// Calculate reading time based on words per minute
+function calculateReadingTime(text: string, wordsPerMinute = 200): number {
+  const words = text.split(/\s+/).length;
+  return Math.ceil(words / wordsPerMinute);
+}
+
+// @ts-expect-error
+export async function getStaticPaths({ paginate }) {
+  const allPosts: Article[] = await getCollection("articles");
+  const publishedPosts = allPosts.filter((post) => !post.data.draft);
+  const sortedPages = publishedPosts.sort(
+    (a: Article, b: Article) =>
+      b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+  );
+
+  return paginate(sortedPages, { pageSize: 5 });
+}
+
+const { page }: any = Astro.props;
+
+const { prev, next } = page.url;
+const currentPage = page.currentPage;
+const totalPages = page.lastPage;
+---
+
+<MainLayout title="Aron Sweet | Articles">
+  <div class="flex flex-col mt-24">
+    <div class="my-5 py-3 border-b border-gray-800">
+      <h2>📰 Articles</h2>
+      <p class="text-gray-400">
+        Subjects vary. Opinions are my own and are not endorsed or shared by my
+        employers or clients.
+      </p>
+    </div>
+    {
+      page.data.map((post: Article) => {
+        const pubDate = new Date(post.data.pubDate);
+        const month = pubDate.toLocaleString("default", { month: "short" });
+        const day = pubDate.getDate();
+        const year = pubDate.getFullYear();
+
+        const readingTime = calculateReadingTime(post.body); // Calculate reading time
+
+        return (
+          <div class="py-4">
+            <div class="grid grid-cols-1 md:grid-cols-8 gap-4">
+              <div class="col-span-1 text-gray-400 font-medium md:text-right">
+                <p class="leading-none">
+                  {month} {day}, {year}
+                </p>
+                <span class="text-sm">{readingTime} min read</span>
+              </div>
+              <div class="col-span-7 flex items-center">
+                <a
+                  href={`/articles/${post.slug}`}
+                  class="text-white hover:text-white no-underline"
+                >
+                  <h5>{post.data.title}</h5>
+                  <span class="text-gray-400 text-lg">
+                    {post.data.description}
+                  </span>
+                  <p class="text-sky-500">Read more &rarr;</p>
+                </a>
+              </div>
+            </div>
+          </div>
+        );
+      })
+    }
+    <div class="flex items-center justify-center gap-4 mt-12">
+      Page {currentPage} of {totalPages}
+      <a href={prev} class="transition-all duration-300">Prev </a>
+      <a href={next} class="transition-all duration-300"> Next </a>
+    </div>
+  </div>
+</MainLayout>

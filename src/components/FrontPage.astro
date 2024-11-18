@@ -1,0 +1,118 @@
+---
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import LatestArticles from "../components/LatestArticles.astro";
+import Projects from "../components/Projects.astro";
+import myAvatar from "../assets/avatar.webp";
+import Contact from "./Contact.astro";
+---
+
+<div class="flex flex-col mt-80 justify-center relative z-0">
+  <div
+    class="absolute -left-5 top-0 -z-10 text-gray-900 w-[150px] invert-[0.1]"
+  >
+    <Image
+      src="https://svgsilh.com/svg/26432.svg"
+      height="150"
+      width="150"
+      alt="Some gray accent dots"
+      loading={"eager"}
+    />
+  </div>
+  <p class="text-sky-500 font-bold text-2xl xl:text-3xl m-0 leading-none">
+    Hey there, I'm-
+  </p>
+  <p class="text-white font-bold text-[6rem] m-0 leading-[0.9em]">Aron(eous)</p>
+  <p class="text-3xl xl:text-4xl font-medium my-8 text-justify hyphens-auto">
+    Software Engineer. <span class="text-gray-400">
+      Welcome to my space for sharing thoughts, insights, and ideas. All views
+      expressed here are my own and not those of my clients or employers.
+    </span>
+  </p>
+  <div class="text-2xl font-medium text-gray-500">
+    <p>🚀 Currently specializing in Frontend (Vue / Astro)</p>
+    <p>
+      ⚡ Frontend Engineer at <span class="text-sky-500">Upwork</span>
+    </p>
+  </div>
+  <div class="flex items-center gap-4 mt-5">
+    <button
+      class="flex items-center py-2 px-3 bg-neutral-900 hover:bg-neutral-700 text-white rounded-lg gap-2"
+      ><Icon name="flowbite:github-solid" class="h-5 w-5 text-sky-500" />
+      Github</button
+    >
+    <button
+      class="flex items-center py-2 px-3 bg-neutral-900 hover:bg-neutral-700 text-white rounded-lg gap-2"
+      ><Icon name="flowbite:linkedin-solid" class="h-5 w-5 text-sky-500" /> LinkedIn</button
+    >
+    <button
+      class="flex items-center py-2 px-3 bg-neutral-900 hover:bg-neutral-700 text-white rounded-lg gap-2"
+      ><Icon name="flowbite:envelope-solid" class="h-5 w-5 text-sky-500" /> Email</button
+    >
+  </div>
+</div>
+<div class="mt-48 grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
+  <div class="text-gray-400">
+    <div class="block md:hidden">
+      <Image
+        src={myAvatar}
+        alt="Aron superimposed on a blue gradient background"
+        style="border-radius: 50%; width: 25%; margin-bottom: 3rem;"
+        loading={"eager"}
+      />
+    </div>
+    <h6 class="text-white">👋 About me</h6>
+    <p>
+      Hello, I’m Aron, a dedicated full-stack developer and front-end
+      specialist. With over 15 years in the field, I’m well-versed in Vue,
+      React, JavaScript, TypeScript, and a wide range of technologies that make
+      the web come alive.
+    </p>
+    <p>
+      My work reflects a commitment to clean, maintainable code and a strong
+      user experience, always aiming for solutions that follow established
+      conventions and best practices. I’m currently expanding my skillset into
+      backend development, using languages like Go and exploring technologies
+      like HTMX to create robust, interactive applications.
+    </p>
+    <p>
+      Beyond coding, I’m passionate about science, psychology, and exploring the
+      vastness of technology and astronomy. I love delving into deep
+      conversations about how the world works; both inside and out.
+    </p>
+    <p>
+      As a lifelong learner, I’m on a continuous journey to grow mentally,
+      spiritually, and physically, and I approach my work with the same energy
+      and curiosity.
+    </p>
+    <p>
+      Whether you’re here to see my latest projects, read my technical articles,
+      or connect for future opportunities, I’m excited to share my journey with
+      you.
+    </p>
+  </div>
+  <div class="relative hidden md:block">
+    <div
+      class="absolute right-6 top-0 z-0 text-gray-900 w-[150px] invert-[0.1]"
+    >
+      <Image
+        src="https://svgsilh.com/svg/26432.svg"
+        height="150"
+        width="150"
+        alt="Some gray accent dots"
+        loading={"eager"}
+      />
+    </div>
+    <div class="w-2/3 mx-auto z-50">
+      <Image
+        src={myAvatar}
+        alt="Aron superimposed on a blue gradient background"
+        style="border-radius: 50%"
+        loading={"eager"}
+      />
+    </div>
+  </div>
+</div>
+<Projects />
+<LatestArticles />
+<Contact />

@@ -1,0 +1,113 @@
+---
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/global.css";
+const { title } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta
+      name="description"
+      content="Explore the portfolio, projects, and technical insights of Aron Sweet, a Full-Stack Developer with expertise in Vue, React, TypeScript, and more."
+    />
+    <meta name="author" content="Aron Sweet" />
+    <meta
+      name="keywords"
+      content="Aron Sweet, Full-Stack Developer, Frontend Developer, Vue, React, TypeScript, Astro, JavaScript, Portfolio, Tech Blog, Web Development, Davenport Iowa"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+
+    <!-- Open Graph / Facebook -->
+    <meta
+      property="og:title"
+      content="Aron Sweet | Full-Stack Developer and Tech Enthusiast"
+    />
+    <meta
+      property="og:description"
+      content="Explore the portfolio, projects, and technical insights of Aron Sweet, a Full-Stack Developer with expertise in Vue, React, TypeScript, and more."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://aronsweet.com" />
+    <meta
+      property="og:image"
+      content="https://aronsweet.com/images/og-image.jpg"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:title"
+      content="Aron Sweet | Full-Stack Developer and Tech Enthusiast"
+    />
+    <meta
+      property="twitter:description"
+      content="Explore the portfolio, projects, and technical insights of Aron Sweet, a Full-Stack Developer with expertise in Vue, React, TypeScript, and more."
+    />
+    <meta
+      property="twitter:image"
+      content="https://aronsweet.com/images/twitter-card.jpg"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://aronsweet.com" />
+
+    <!-- Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Aron Sweet",
+        "url": "https://aronsweet.com",
+        "sameAs": [
+          "https://github.com/nodesleep",
+          "https://linkedin.com/in/aronsweet"
+        ],
+        "jobTitle": "Full-Stack Developer",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Freelance"
+        },
+        "description": "Explore the portfolio, projects, and technical insights of Aron Sweet, a Full-Stack Developer with expertise in Vue, React, TypeScript, and more.",
+        "image": "https://aronsweet.com/images/profile.jpg"
+      }
+    </script>
+
+    <style>
+      :root {
+        font-family: "Geist", sans-serif;
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        scroll-behavior: smooth;
+      }
+      body {
+        background-color: black;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <Navbar />
+    <div class="flex flex-col min-h-screen w-full">
+      <div class="flex flex-col w-full md:w-[70rem] md:mx-auto p-5 z-0">
+        <slot />
+      </div>
+      <Footer />
+    </div>
+  </body>
+</html>

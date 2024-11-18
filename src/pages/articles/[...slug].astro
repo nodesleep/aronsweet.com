@@ -1,0 +1,31 @@
+---
+// @ts-nocheck
+import { getCollection } from "astro:content";
+import MainLayout from "../../layouts/MainLayout.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("articles");
+  const filteredEntries = entries.filter((entry) => !entry.data.draft);
+
+  return filteredEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+
+if (!entry) {
+  return Astro.redirect("/404");
+}
+const { Content } = await entry.render();
+---
+
+<MainLayout
+  title=`${entry.data.title} | twoslashes.dev`
+  frontmatter={entry.data}
+>
+  <div class="article-entry">
+    <Content />
+  </div>
+</MainLayout>

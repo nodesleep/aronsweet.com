@@ -1,0 +1,17 @@
+---
+import { Icon } from "astro-icon/components";
+
+const date = new Date();
+---
+
+<div>
+  <div class="mt-12 py-6 text-sm">
+    <p class="text-center">
+      &copy; {date.getFullYear()} Aron Sweet<br />
+      Built with <a href="https://astro.build" target="_blank">Astro</a> & <a
+        href="https://tailwindcss.com/"
+        target="_blank">Tailwindcss</a
+      >. Hosted on <a href="https://netlify.com/" target="_blank">Netfliy</a>.
+    </p>
+  </div>
+</div>
