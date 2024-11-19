@@ -1,16 +1,5 @@
 @tailwind base;
 
-@layer base {
-  :root {
-    font-family: "Geist", sans-serif;
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    scroll-behavior: smooth;
-  }
-}
-
 body {
   @apply bg-black text-white;
 }
@@ -74,6 +63,27 @@ a {
 
 a:hover {
   @apply text-sky-400;
+}
+
+.article-entry {
+  @apply mt-24;
+}
+
+.article-entry p {
+  @apply text-gray-400;
+}
+
+.article-entry strong {
+  @apply text-white;
+}
+
+.article-entry h1,
+.article-entry h2,
+.article-entry h3,
+.article-entry h4,
+.article-entry h5,
+.article-entry h6 {
+  @apply my-5;
 }
 
 .article-entry ol {

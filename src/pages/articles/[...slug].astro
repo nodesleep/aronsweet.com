@@ -21,10 +21,7 @@ if (!entry) {
 const { Content } = await entry.render();
 ---
 
-<MainLayout
-  title=`${entry.data.title} | twoslashes.dev`
-  frontmatter={entry.data}
->
+<MainLayout title=`Aron Sweet | ${entry.data.title}` frontmatter={entry.data}>
   <div class="article-entry">
     <Content />
   </div>
