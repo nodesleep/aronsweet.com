@@ -37,64 +37,48 @@ export async function getStaticPaths({ paginate }) {
       b.data.pubDate.getTime() - a.data.pubDate.getTime(),
   );
 
-  return paginate(sortedPages, { pageSize: 5 });
+  return paginate(sortedPages);
 }
 
 const { page }: any = Astro.props;
-
-const { prev, next } = page.url;
-const currentPage = page.currentPage;
-const totalPages = page.lastPage;
 ---
 
 <MainLayout title="Aron Sweet | Articles">
-  <div class="flex flex-col mt-24">
-    <div class="my-5 py-3 border-b border-gray-800">
-      <h2>📰 Articles</h2>
-      <p class="text-gray-400">
+  <div class="flex flex-col">
+    <div class="my-5 py-6">
+      <h1 class="text-3xl font-bold">Articles</h1>
+      <p class="text-gray-400 text-lg mt-3">
         Subjects vary. Opinions are my own and are not endorsed or shared by my
         employers or clients.
       </p>
     </div>
-    {
-      page.data.map((post: Article) => {
-        const pubDate = new Date(post.data.pubDate);
-        const month = pubDate.toLocaleString("default", { month: "short" });
-        const day = pubDate.getDate();
-        const year = pubDate.getFullYear();
+    <div class="flex flex-col space-y-8">
+      {
+        page.data.map((post: Article) => {
+          const pubDate = new Date(post.data.pubDate);
+          const month = pubDate.toLocaleString("default", { month: "short" });
+          const day = pubDate.getDate();
+          const year = pubDate.getFullYear();
 
-        const readingTime = calculateReadingTime(post.body); // Calculate reading time
+          const readingTime = calculateReadingTime(post.body); // Calculate reading time
 
-        return (
-          <div class="py-4">
-            <div class="grid grid-cols-1 md:grid-cols-8 gap-4">
-              <div class="col-span-1 text-gray-400 font-medium md:text-right">
-                <p class="leading-none">
-                  {month} {day}, {year}
-                </p>
-                <span class="text-sm">{readingTime} min read</span>
-              </div>
-              <div class="col-span-7 flex items-center">
+          return (
+            <div>
+              <p class="text-2xl font-bold">
                 <a
                   href={`/articles/${post.slug}`}
-                  class="text-white hover:text-white no-underline"
+                  class="text-white hover:text-blue-500 transition-colors duration-150"
                 >
-                  <h5>{post.data.title}</h5>
-                  <span class="text-gray-400 text-lg">
-                    {post.data.description}
-                  </span>
-                  <p class="text-sky-500">Read more &rarr;</p>
+                  {post.data.title}
                 </a>
-              </div>
+              </p>
+              <p class="text-gray-500 font-mono font-medium mt-1">
+                {month} {day}, {year} • {readingTime} min read
+              </p>
             </div>
-          </div>
-        );
-      })
-    }
-    <div class="flex items-center justify-center gap-4 mt-12">
-      Page {currentPage} of {totalPages}
-      <a href={prev} class="transition-all duration-300">Prev </a>
-      <a href={next} class="transition-all duration-300"> Next </a>
+          );
+        })
+      }
     </div>
   </div>
 </MainLayout>

@@ -1,125 +1,98 @@
 ---
-import { Icon } from "astro-icon/components";
-import { Image } from "astro:assets";
-import LatestArticles from "../components/LatestArticles.astro";
-import Projects from "../components/Projects.astro";
-import myAvatar from "../assets/avatar.webp";
-import Contact from "./Contact.astro";
+import { getCollection } from "astro:content";
+import AboutCard from "../components/AboutCard.astro";
+
+interface Article {
+  id: string;
+  slug: string;
+  body: string;
+  collection: "articles";
+  data: {
+    title: string;
+    pubDate: Date;
+    description?: string;
+    category?: string[];
+    author: string;
+    image?: {
+      url: string;
+      alt: string;
+    };
+    tags?: string[];
+    draft?: boolean;
+  };
+}
+
+function calculateReadingTime(text: string, wordsPerMinute = 200): number {
+  const words = text.split(/\s+/).length;
+  return Math.ceil(words / wordsPerMinute);
+}
+
+const fetchPosts = async () => {
+  const allPosts = await getCollection("articles");
+  const publishedPosts = allPosts.filter((post: any) => !post.data.draft);
+  return publishedPosts
+    .sort(
+      (a: any, b: any) =>
+        new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime(),
+    )
+    .slice(0, 3);
+};
+
+const truncateDescription = (description: string | undefined) => {
+  const maxLength = 165;
+  if (!description) {
+    return "";
+  }
+  if (description.length > maxLength) {
+    return description.slice(0, maxLength) + "...";
+  }
+  return description;
+};
+
+const posts = await fetchPosts();
 ---
 
-<div class="flex flex-col mt-80 justify-center relative z-0">
-  <div
-    class="absolute -left-5 top-0 -z-10 text-gray-900 w-[150px] invert-[0.1]"
-  >
-    <Image
-      src="https://svgsilh.com/svg/26432.svg"
-      height="150"
-      width="150"
-      alt="Some gray accent dots"
-      loading={"eager"}
-    />
+<AboutCard />
+<div class="flex flex-col mb-32">
+  <div class="flex items-center">
+    <h1 class="text-xl font-bold">Recent Articles</h1>
   </div>
-  <p class="text-sky-500 font-bold text-2xl xl:text-3xl m-0 leading-none">
-    Hey there, I'm-
-  </p>
-  <p class="text-white font-bold text-[6rem] m-0 leading-[0.9em] break-words">
-    Aron Sweet
-  </p>
-  <p class="text-3xl xl:text-4xl font-medium my-8 text-justify hyphens-auto">
-    Software Engineer. <span class="text-gray-400">
-      Welcome to my space for sharing thoughts, insights, and ideas. All views
-      expressed here are my own and not those of my clients or employers.
-    </span>
-  </p>
-  <div class="text-2xl font-medium text-gray-500">
-    <p>🚀 Currently specializing in Frontend (Vue / Astro)</p>
-    <p>
-      ⚡ Frontend Engineer at <span class="text-sky-500">Upwork</span>
-    </p>
+  <div class="flex flex-col space-y-10 mt-10 mb-5">
+    {
+      posts.map((post: Article) => {
+        const pubDate = new Date(post.data.pubDate);
+        const month = pubDate.toLocaleString("default", { month: "short" });
+        const day = pubDate.getDate();
+        const year = pubDate.getFullYear();
+
+        const readingTime = calculateReadingTime(post.body);
+
+        return (
+          <div class="flex flex-col justify-center">
+            <p class="text-2xl font-bold">
+              <a
+                href={`/articles/${post.slug}`}
+                class="text-white hover:text-blue-500 transition-colors duration-150"
+              >
+                {post.data.title}
+              </a>
+            </p>
+            <p class="text-gray-500 font-mono font-medium my-2">
+              {month} {day}, {year} • {readingTime} min read
+            </p>
+            <p class="text-gray-400 prose dark:prose-invert">
+              {truncateDescription(post.data.description)}
+            </p>
+          </div>
+        );
+      })
+    }
   </div>
-  <div class="flex items-center gap-4 mt-5">
+  <div class="flex items-center">
     <a
-      class="flex items-center py-2 px-3 bg-neutral-900 hover:bg-neutral-700 text-white rounded-lg gap-2"
-      href="https://github.com/nodesleep"
-      target="_blank"
-      ><Icon name="flowbite:github-solid" class="h-5 w-5 text-sky-500" />
-      Github</a
-    >
-    <a
-      class="flex items-center py-2 px-3 bg-neutral-900 hover:bg-neutral-700 text-white rounded-lg gap-2"
-      href="https://linkedin.com/in/aronjs"
-      target="_blank"
-      ><Icon name="flowbite:linkedin-solid" class="h-5 w-5 text-sky-500" /> LinkedIn</a
-    >
-    <a
-      class="flex items-center py-2 px-3 bg-neutral-900 hover:bg-neutral-700 text-white rounded-lg gap-2"
-      href="mailto:sweet@openteknik.com"
-      ><Icon name="flowbite:envelope-solid" class="h-5 w-5 text-sky-500" /> Email</a
+      href="/articles"
+      class="text-blue-400 hover:bg-blue-950 rounded-lg transition-colors duration-150"
+      >View All Articles &rarr;</a
     >
   </div>
 </div>
-<div class="mt-48 grid grid-cols-1 md:grid-cols-2 gap-2 items-center">
-  <div class="text-gray-400">
-    <div class="block md:hidden">
-      <Image
-        src={myAvatar}
-        alt="Aron superimposed on a blue gradient background"
-        style="border-radius: 50%; width: 25%; margin-bottom: 3rem;"
-        loading={"eager"}
-      />
-    </div>
-    <h6 class="text-white">👋 About me</h6>
-    <p>
-      Hello, I’m Aron, a dedicated full-stack developer and front-end
-      specialist. With over 15 years in the field, I’m well-versed in Vue,
-      React, JavaScript, TypeScript, and a wide range of technologies that make
-      the web come alive.
-    </p>
-    <p>
-      My work reflects a commitment to clean, maintainable code and a strong
-      user experience, always aiming for solutions that follow established
-      conventions and best practices. I’m currently expanding my skillset into
-      backend development, using languages like Go and exploring technologies
-      like HTMX to create robust, interactive applications.
-    </p>
-    <p>
-      Beyond coding, I’m passionate about science, psychology, and exploring the
-      vastness of technology and astronomy. I love delving into deep
-      conversations about how the world works; both inside and out.
-    </p>
-    <p>
-      As a lifelong learner, I’m on a continuous journey to grow mentally,
-      spiritually, and physically, and I approach my work with the same energy
-      and curiosity.
-    </p>
-    <p>
-      Whether you’re here to see my latest projects, read my technical articles,
-      or connect for future opportunities, I’m excited to share my journey with
-      you.
-    </p>
-  </div>
-  <div class="relative hidden md:block">
-    <div
-      class="absolute right-6 top-0 z-0 text-gray-900 w-[150px] invert-[0.1]"
-    >
-      <Image
-        src="https://svgsilh.com/svg/26432.svg"
-        height="150"
-        width="150"
-        alt="Some gray accent dots"
-        loading={"eager"}
-      />
-    </div>
-    <div class="w-2/3 mx-auto z-50">
-      <Image
-        src={myAvatar}
-        alt="Aron superimposed on a blue gradient background"
-        style="border-radius: 50%"
-        loading={"eager"}
-      />
-    </div>
-  </div>
-</div>
-<Projects />
-<LatestArticles />
-<Contact />

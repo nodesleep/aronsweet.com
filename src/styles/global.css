@@ -1,107 +1,27 @@
-@tailwind base;
+@import url("/fonts/inter.css");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");
+
+@import "tailwindcss";
+@plugin '@tailwindcss/typography';
+
+:root {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: always;
+  text-rendering: optimizeLegibility;
+  font-size: 16px;
+}
+
+@theme {
+  --font-mono: "JetBrains Mono", monospace;
+  --font-sans: "InterVariable", sans-serif;
+}
 
 body {
-  @apply bg-black text-white;
+  background-color: #0b0f11;
+  color: #f7f7f7;
 }
-
-button {
-  @apply transition-all duration-300;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  @apply font-bold;
-}
-
-h1 {
-  @apply text-6xl;
-}
-
-h2 {
-  @apply text-5xl;
-}
-
-h3 {
-  @apply text-4xl;
-}
-
-h4 {
-  @apply text-3xl;
-}
-
-h5 {
-  @apply text-2xl;
-}
-
-h6 {
-  @apply text-xl;
-}
-
-p {
-  @apply py-1;
-}
-
-p strong {
-  @apply font-bold text-white;
-}
-
-cite > * {
-  @apply italic text-left hyphens-auto;
-}
-
-code {
-  @apply text-xs text-blue-600 dark:text-red-600;
-}
-
-a {
-  @apply text-sky-500 transition-all duration-300;
-}
-
-a:hover {
-  @apply text-sky-400;
-}
-
-.article-entry {
-  @apply mt-24;
-}
-
-.article-entry p {
-  @apply text-gray-400;
-}
-
-.article-entry strong {
-  @apply text-white;
-}
-
-.article-entry h1,
-.article-entry h2,
-.article-entry h3,
-.article-entry h4,
-.article-entry h5,
-.article-entry h6 {
-  @apply my-5;
-}
-
-.article-entry ol {
-  @apply list-decimal list-inside my-5 text-sky-800 dark:text-sky-300;
-}
-
-.astro-code {
-  @apply p-2 rounded my-2 text-xs;
-}
-
-.navbar {
-  @apply flex items-center p-5 w-full md:w-[70rem] mx-auto bg-black;
-}
-
-.navbar a {
-  @apply text-inherit rounded-lg hover:bg-neutral-900 transition-all duration-300;
-}
-
-.navbar li {
-  @apply px-3 py-2;
+strong {
+  font-weight: bold;
+  color: #f7f7f7;
 }
