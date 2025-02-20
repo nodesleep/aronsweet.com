@@ -17,10 +17,15 @@
   --font-sans: "InterVariable", sans-serif;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   background-color: #0b0f11;
   color: #f7f7f7;
 }
+
 strong {
   font-weight: bold;
   color: #f7f7f7;

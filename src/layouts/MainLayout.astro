@@ -113,6 +113,29 @@ const { title } = Astro.props;
         document.body.style.visibility = "visible";
       });
     </script>
+
+    <!-- Article Progress Bar -->
+    <script>
+      const progressBar = document.getElementById("progressBar");
+      window.addEventListener("scroll", () => {
+        if (!progressBar) {
+          return;
+        }
+        window.addEventListener("scroll", () => {
+          const scrollTop = document.documentElement.scrollTop;
+          const scrollHeight =
+            document.documentElement.scrollHeight -
+            document.documentElement.clientHeight;
+          const scrollPercentage = (scrollTop / scrollHeight) * 100;
+
+          progressBar.style.width = scrollPercentage + "%";
+
+          progressBar.style.borderTopRightRadius =
+            progressBar.style.borderBottomRightRadius =
+              scrollPercentage === 100 ? "0rem" : "0.25rem";
+        });
+      });
+    </script>
   </head>
   <body style="visibility: hidden;">
     <!-- Flash reload fix for Firefox -->

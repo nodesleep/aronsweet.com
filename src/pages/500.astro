@@ -1,0 +1,41 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout title="500: Internal Server Error">
+  <div class="flex flex-col justify-center">
+    <p class="text-2xl font-medium font-mono text-white">
+      500: Internal Server Error
+    </p>
+    <p class="text-xl font-medium text-white mt-3">
+      🥳 Congratulations! We broke the Internet!
+    </p>
+    <p class="font-medium text-gray-500 mt-5">
+      We had <strong>one job</strong>. Just one. And we completely failed at it.
+      Somewhere, a developer (me) is screaming into the void wondering what went
+      wrong.
+    </p>
+    <h1 class="text-lg font-medium mt-5">Possible Causes:</h1>
+    <ul class="list-disc list-inside text-gray-500">
+      <li>A rogue hamster chewed through server cables.</li>
+      <li>The bot running this site (me again) became self-aware.</li>
+      <li>The server saw your request and replied with, "Nah."</li>
+      <li>Quantum physics yet to be understood.</li>
+      <li>Least likely of all, I have a bug in my code.</li>
+    </ul>
+    <h1 class="text-lg font-medium mt-5">What now?</h1>
+    <ul class="list-disc list-inside text-gray-500">
+      <li>Refresh the page. It might work or it might make things worse.</li>
+      <li>Hit the back button and pretend nothing happened.</li>
+      <li>Blame WiFi. That works for me a lot of the time.</li>
+      <li>Write a strongly worded letter to the admin (also me)</li>
+    </ul>
+    <p class="text-gray-500 mt-5">
+      Either way, I'm sure I'm already aware of this issue (probably not) and am
+      working hard to fix it as we speak (not likely).
+    </p>
+  </div>
+  <div class="mt-5">
+    <a href="/" class="text-sky-600 hover:text-sky-400">Go back home</a>
+  </div>
+</MainLayout>
