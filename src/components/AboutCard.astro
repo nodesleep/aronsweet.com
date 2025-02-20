@@ -1,0 +1,40 @@
+---
+import { Icon } from "astro-icon/components"
+import { Image } from "astro:assets";
+import myAvatar from "../assets/avatar.webp";
+---
+<div class="flex flex-col md:flex-row w-full mt-12 sm:mt-0">
+    <div class="hidden md:block md:w-1/4">
+            <Image
+            src={myAvatar}
+            alt="Aron superimposed on a blue gradient background"
+            style="border-radius: 50%; border: 2px solid white; max-width:70%; margin-bottom: 3rem;"
+            loading={"eager"}
+          />
+    </div>
+    <div class="block md:hidden md:w-1/4">
+        <Image
+        src={myAvatar}
+        alt="Aron superimposed on a blue gradient background"
+        style="border-radius: 50%; border: 2px solid white; max-width:40%; margin:auto; margin-bottom: 2rem;"
+        loading={"eager"}
+      />
+</div>
+    <div class="flex flex-col w-full md:w-3/4">
+        <h1 class="font-bold text-3xl text-gray-400"><a href="/about" class="text-white hover:text-blue-500 transition-colors duration-150">Hi, I'm Aron.</a> I'm a Senior Developer and Software Engineer.</h1>
+        <ul class="flex items-center space-x-4 mt-5 font-medium text-gray-400">
+            <li>
+              <a href="https://x.com/asyncawaited" class="flex items-center hover:text-blue-400"><Icon name="mdi:twitter" class="h-6 w-6 mr-2 text-blue-400" />Twitter</a>
+            </li>
+            <li>
+              <a href="https://instagram.com/asyncawaited" class="flex items-center hover:text-orange-700 transition-colors duration-150"><Icon name="mdi:instagram" class="h-6 w-6 mr-2  text-orange-700" />Instagram</a>
+            </li>
+            <li>
+              <a href="https://linkedin.com/in/aronjs" class="flex items-center hover:text-sky-700 transition-colors duration-150"><Icon name="mdi:linkedin" class="h-6 w-6 mr-2  text-sky-700" />LinkedIn</a>
+            </li>
+            <li>
+              <a href="https://github.com/nodesleep" class="flex items-center hover:text-white transition-colors duration-150"><Icon name="mdi:github" class="h-6 w-6 mr-2  text-white" />Github</a>
+            </li>
+        </ul>
+    </div>
+</div>
