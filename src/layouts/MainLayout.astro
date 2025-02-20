@@ -1,6 +1,6 @@
 ---
-import Navbar from "../components/Navbar.astro"
-import Footer from "../components/Footer.astro"
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
 import "../styles/global.css";
 const { title } = Astro.props;
 ---
@@ -87,15 +87,17 @@ const { title } = Astro.props;
     </script>
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0SV265WZ3G"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0SV265WZ3G"
+    ></script>
     <script>
       // @ts-nocheck
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-0SV265WZ3G');
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-0SV265WZ3G");
     </script>
-
 
     <!-- Flash reload fix -->
     <script>

@@ -51,38 +51,48 @@ const truncateDescription = (description: string | undefined) => {
 
 const posts = await fetchPosts();
 ---
+
 <AboutCard />
 <div class="flex flex-col mt-16 mb-32">
-    <div class="flex items-center">
-      <h1 class="text-xl font-bold">Recent Articles</h1>
-    </div>
-    <div class="flex flex-col space-y-10 mt-10 mb-5">
-      {
-        posts.map((post: Article) => {
-          const pubDate = new Date(post.data.pubDate);
-          const month = pubDate.toLocaleString("default", { month: "short" });
-          const day = pubDate.getDate();
-          const year = pubDate.getFullYear();
-  
-          const readingTime = calculateReadingTime(post.body);
-  
-          return (
-              <div class="flex flex-col justify-center">
-                <p class="text-2xl font-bold">
-                    <a href={`/articles/${post.slug}`} class="text-white hover:text-blue-500 transition-colors duration-150">
-                    {post.data.title}
-                    </a>
-                </p>
-                <p class="text-gray-500 font-mono font-medium my-2">
-                  {month} {day}, {year} • {readingTime} min read
-                </p>
-                <p class="text-gray-400 prose dark:prose-invert">{truncateDescription(post.data.description)}</p>
-              </div>
-          );
-        })
-      }
-    </div>
-    <div class="flex items-center">
-        <a href="/articles" class="text-blue-400 hover:bg-blue-950 rounded-lg transition-colors duration-150">View All Articles &rarr;</a>      
-    </div>
+  <div class="flex items-center">
+    <h1 class="text-xl font-bold">Recent Articles</h1>
   </div>
+  <div class="flex flex-col space-y-10 mt-10 mb-5">
+    {
+      posts.map((post: Article) => {
+        const pubDate = new Date(post.data.pubDate);
+        const month = pubDate.toLocaleString("default", { month: "short" });
+        const day = pubDate.getDate();
+        const year = pubDate.getFullYear();
+
+        const readingTime = calculateReadingTime(post.body);
+
+        return (
+          <div class="flex flex-col justify-center">
+            <p class="text-2xl font-bold">
+              <a
+                href={`/articles/${post.slug}`}
+                class="text-white hover:text-blue-500 transition-colors duration-150"
+              >
+                {post.data.title}
+              </a>
+            </p>
+            <p class="text-gray-500 font-mono font-medium my-2">
+              {month} {day}, {year} • {readingTime} min read
+            </p>
+            <p class="text-gray-400 prose dark:prose-invert">
+              {truncateDescription(post.data.description)}
+            </p>
+          </div>
+        );
+      })
+    }
+  </div>
+  <div class="flex items-center">
+    <a
+      href="/articles"
+      class="text-blue-400 hover:bg-blue-950 rounded-lg transition-colors duration-150"
+      >View All Articles &rarr;</a
+    >
+  </div>
+</div>

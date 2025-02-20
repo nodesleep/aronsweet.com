@@ -53,29 +53,32 @@ const { page }: any = Astro.props;
       </p>
     </div>
     <div class="flex flex-col space-y-8">
-    {
-      page.data.map((post: Article) => {
-        const pubDate = new Date(post.data.pubDate);
-        const month = pubDate.toLocaleString("default", { month: "short" });
-        const day = pubDate.getDate();
-        const year = pubDate.getFullYear();
+      {
+        page.data.map((post: Article) => {
+          const pubDate = new Date(post.data.pubDate);
+          const month = pubDate.toLocaleString("default", { month: "short" });
+          const day = pubDate.getDate();
+          const year = pubDate.getFullYear();
 
-        const readingTime = calculateReadingTime(post.body); // Calculate reading time
+          const readingTime = calculateReadingTime(post.body); // Calculate reading time
 
-        return (
-          <div>
-                <p class="text-xl font-bold">
-                    <a href={`/articles/${post.slug}`} class="text-white hover:text-blue-500 transition-colors duration-150">
-                    {post.data.title}
-                    </a>
-                </p>
-                <p class="text-gray-500 font-mono font-medium mt-1">
-                  {month} {day}, {year} • {readingTime} min read
-                </p>
+          return (
+            <div>
+              <p class="text-xl font-bold">
+                <a
+                  href={`/articles/${post.slug}`}
+                  class="text-white hover:text-blue-500 transition-colors duration-150"
+                >
+                  {post.data.title}
+                </a>
+              </p>
+              <p class="text-gray-500 font-mono font-medium mt-1">
+                {month} {day}, {year} • {readingTime} min read
+              </p>
             </div>
-        );
-      })
-    }
+          );
+        })
+      }
     </div>
   </div>
 </MainLayout>
