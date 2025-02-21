@@ -28,4 +28,64 @@ And I would posit that given the serious amount of vulnerabilities, reliance on 
 
 This is not an attack on WordPress or PHP.
 
-###### The Problem
+###### Enter Astro
+
+Here comes the rocketship 🚀 - Yes, I'm talking about [Astro](https://astro.build). This incredibly flexible JavaScript framework is so versatile and easy to deploy that it's almost stupid that it's not dominating right now.
+
+Of course, you'll have to excuse the bias. This site is proudly built on Astro.
+
+Okay okay, I understand Astro is a static site generator and not a CMS (content management system), but both WordPress and Astro are centered on content management. Albeit, they handle the process differently, a WordPress developer will quickly understand how Astro works if they're familiar with JavaScript.
+
+Astro is incredibly versatile. Even though it comes out of the box with support for Markdown (.md) and Markdown with JSX support (.mdx), you can integrate Astro with a headless CMS like Sanity, Contentful, or Strapi if so desired. This will allow non-devs to manage content without needing coding skills.
+
+One thing I've always said was "Give Astro a wysiwyg editor and it would boom", however, pairing it with a headless CMS gives you that functionality straightaway.
+
+Astro supports a variety of integrations and templating support (Vue, React, Svelte, HTMX, Tailwindcss, Bootstrap, to name a few) and is growing by the day. I even found a Prettier plugin for Astro and was able to integrate it into my project for code formatting. The community is growing and has been actively developing plugins and integrations.
+
+###### Server-Side Rendering (SSR)
+
+Astro focuses on both static site generation for performance and can also support server-side rendering for dynamic use cases. This allows you to generate content at build time while still providing flexibility for functionality.
+
+With WordPress, you'll need a static caching plugin like WP Super Cache to mimic static site behavior for speed. WordPress also has various methods to work with server-side rendering.
+
+My point being that although you can likely acheive both SSG and SSR with WordPress, your reliance on third party plugins will begin to show. Astro supports a lot of these features out of the box.
+
+###### Search Engine Optimization
+
+And of course, what good is a website that doesn't place well in Google search rankings? WordPress has SEO features out of the box, even including plugins like Yoast SEO or Rank Math to make it extremely SEO-friendly. The content structure optimized for search engines. I'd say this is one thing WordPress does extremely well.
+
+Astro is designed with performance in mind, but it still ensures SEO-friendliness out of the box with clean and semantic HTML output and blazing fast load times.
+
+###### Design
+
+Astro supports templating and component-based design. You can create Astro components, but as mentioned earlier in the article, allows developers to integrate a component framework of their choice like React or Vue. This allows an incredibly flexible and modern approach to creating layouts. From a CSS standpoint, Astro has a plugin for Tailwindcss available, which can be installed with <code>npx astro add tailwind</code>.
+
+WordPress uses themes to control the design and layout of your website, as well as the admin panel and adjacent features. Themes are customizable, with child themes allowing deeper customization without changing core code. I can't speak to how easily one can integrate Tailwindcss into a WordPress theme, but I'm confident there's an easy way to do it without losing your hair.
+
+###### Open Source
+
+Both Astro and WordPress are open-source.
+
+###### Focus On Performance
+
+Performance is a primary focus of Astro. It generates sites with minimal JavaScript, serving only what's necessary to ensure fast loading and great user experiences. There's a ton of performance tooling built into Astro, including island-style design, lazy-loading of components and images, and more.
+
+While WordPress can be performance-heavy by default, there are many tools and best practices like caching, image optimization, and CDN integration to improve WordPress performance. However, these aren't really baked-in solutions and require some additional configuration. Some would say that WordPress optimization is a skill unto itself.
+
+###### Not So Similar, After All?
+
+Okay, you got me. It seems Astro and WordPress aren't exactly the same, but I never claimed they were. What I said is Astro could make a great _replacement_ for WordPress if only more people knew it existed.
+
+So despite the similarities, Astro and WordPress differ significantly when all is said and done. How they operate and are best suited for different types of projects contrasts one from the other, but I will argue that Astro is much more developer-friendly, faster, stable, and backed by a community that isn't steeped in X drama.
+
+WordPress would be a more complete and layman-friendly CMS that can handle dynamic content and is great if you're not exactly savvy with code.
+
+So I suppose that's where WordPress really gains it's foothold; ease of use. Sure, Astro will require some know-how in the JavaScript and markdown department, but once configured, I will argue that you can do just as much if not more with the Astro framework (uses Vite, btw) than you could with WordPress natively.
+
+###### Conclusion
+
+I think I've made my point. While WordPress definitely has its advantages and we've contemplated just how it gained its foothold in the market, we don't exactly _require_ WordPress for as much as it's being used for. Alternatives like Astro handle a lot of what people look for in a framework out of the box and can be used and configured to do the same things WordPress does.
+
+Is this an original thought? Probably not.
+
+But it will definitely make me think twice when I'm asked to develop a WordPress for clients. Astro will be a heavy contender in that arena depending on user needs.
