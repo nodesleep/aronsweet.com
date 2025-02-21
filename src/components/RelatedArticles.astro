@@ -1,0 +1,69 @@
+---
+import { getCollection } from "astro:content";
+
+const { entry } = Astro.props;
+
+// Get Related Articles
+const getRelatedArticles = async () => {
+  const entries = await getCollection("articles");
+  const currentArticle = entry;
+
+  // Filter articles to find ones that share at least one category with the current article
+  const related = entries.filter((otherEntry) =>
+    otherEntry.data.category.some((cat) =>
+      currentArticle.data.category.includes(cat),
+    ),
+  );
+
+  // Exclude the current article by title
+  const excludeSelf = related.filter(
+    (relatedEntry) => relatedEntry.data.title !== currentArticle.data.title,
+  );
+
+  return excludeSelf
+    .sort(
+      (a, b) =>
+        new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime(),
+    )
+    .slice(0, 3);
+};
+
+const relatedArticles = await getRelatedArticles();
+
+function calculateReadingTime(text: string, wordsPerMinute = 200): number {
+  const words = text.split(/\s+/).length;
+  return Math.ceil(words / wordsPerMinute);
+}
+
+const readingTime = calculateReadingTime(entry.body);
+---
+
+<h1 class="text-lg font-bold text-white mt-12">Related Articles</h1>
+<div class="flex flex-col space-y-5 my-5">
+  {
+    relatedArticles.map((post) => {
+      const pubDate = new Date(post.data.pubDate);
+      const month = pubDate.toLocaleString("default", { month: "short" });
+      const day = pubDate.getDate();
+      const year = pubDate.getFullYear();
+
+      const readingTime = calculateReadingTime(post.body);
+
+      return (
+        <div class="flex flex-col justify-center">
+          <p class="text-xl font-bold">
+            <a
+              href={`/articles/${post.slug}`}
+              class="text-gray-300 hover:text-blue-500 transition-colors duration-150"
+            >
+              {post.data.title}
+            </a>
+          </p>
+          <p class="text-gray-500 font-mono font-medium my-2">
+            {month} {day}, {year} • {readingTime} min read
+          </p>
+        </div>
+      );
+    })
+  }
+</div>
