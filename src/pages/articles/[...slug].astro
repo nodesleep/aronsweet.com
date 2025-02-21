@@ -3,7 +3,17 @@
 import { getCollection } from "astro:content";
 import MainLayout from "../../layouts/MainLayout.astro";
 import Prose from "../../components/Prose.astro";
+import { record } from "astro:schema";
 
+// Format date
+const formattedDate = (date: Date) =>
+  date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+// Fetch and filter article collection based on draft boolean
 export async function getStaticPaths() {
   const entries = await getCollection("articles");
   const filteredEntries = entries.filter((entry) => !entry.data.draft);
@@ -16,14 +26,83 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 
+// Redirect to 404 if Article not found
 if (!entry) {
   return Astro.redirect("/404");
 }
 const { Content } = await entry.render();
+
+// Calculate reading time based on words per minute
+function calculateReadingTime(text: string, wordsPerMinute = 200): number {
+  const words = text.split(/\s+/).length;
+  return Math.ceil(words / wordsPerMinute);
+}
+
+const readingTime = calculateReadingTime(entry.body);
+
+// Get Related Articles
+const getRelatedArticles = async () => {
+  const entries = await getCollection("articles");
+  const currentArticle = entry; // Assuming 'entry' is your current article
+
+  // Filter articles to find ones that share at least one category with the current article
+  const related = entries.filter((otherEntry) =>
+    otherEntry.data.category.some((cat) =>
+      currentArticle.data.category.includes(cat),
+    ),
+  );
+
+  // Exclude the current article by title
+  const excludeSelf = related.filter(
+    (relatedEntry) => relatedEntry.data.title !== currentArticle.data.title,
+  );
+
+  return excludeSelf
+    .sort(
+      (a, b) =>
+        new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime(),
+    )
+    .slice(0, 3);
+};
+
+const relatedArticles = await getRelatedArticles();
 ---
 
 <MainLayout title=`${entry.data.plainTitle}` frontmatter={entry.data}>
   <Prose>
+    <h3>{entry.data.title}</h3>
+    <p class="font-mono">
+      Written on {formattedDate(entry.data.pubDate)} - {readingTime} min read
+    </p>
     <Content />
   </Prose>
+  <h1 class="text-lg font-bold text-white mt-12">Related Reading</h1>
+  <div class="flex flex-col space-y-5 my-5">
+    {
+      relatedArticles.map((post: Article) => {
+        const pubDate = new Date(post.data.pubDate);
+        const month = pubDate.toLocaleString("default", { month: "short" });
+        const day = pubDate.getDate();
+        const year = pubDate.getFullYear();
+
+        const readingTime = calculateReadingTime(post.body);
+
+        return (
+          <div class="flex flex-col justify-center">
+            <p class="text-xl font-bold">
+              <a
+                href={`/articles/${post.slug}`}
+                class="text-gray-300 hover:text-blue-500 transition-colors duration-150"
+              >
+                {post.data.title}
+              </a>
+            </p>
+            <p class="text-gray-500 font-mono font-medium my-2">
+              {month} {day}, {year} • {readingTime} min read
+            </p>
+          </div>
+        );
+      })
+    }
+  </div>
 </MainLayout>
