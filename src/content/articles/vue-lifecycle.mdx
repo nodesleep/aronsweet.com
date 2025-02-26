@@ -1,0 +1,409 @@
+---
+title: "👾 The Vue Lifecycle"
+plainTitle: "The Vue Lifecycle"
+pubDate: 2025-02-26T12:00:00
+description: "I've recently come across some code where Vue lifecycles were implemented, but incorrectly. It seems like there's a bit of confusion in how hooks are used since Vue released the Composition API in Vue 3, while still leaving the Options API available for use. Things get a little confusing when you go from Vue 2 to Vue 3, Options API to Composition, Setup script to Script Setup syntax and more."
+category: ["Dev", "Vue"]
+author: "Aron Sweet"
+tags: ["Dev", "Vue", "Lifecycle"]
+slug: "vue-lifecycle"
+draft: false
+---
+
+##### Introduction
+
+I've recently come across some code where Vue lifecycles were implemented, but incorrectly. It seems like there's a bit of confusion in how hooks are used since Vue released the Composition API in Vue 3, while still leaving the Options API available for use. Things get a little confusing when you go from Vue 2 to Vue 3, Options API to Composition, Setup script to Script Setup syntax and more.
+
+In the spirit of helping other developers understand the lifecycles and how they work, I decided to put together a little handy reference guide to fall back on in case you find yourself confused and don't feel like reading the documentation. The official Vue docs are comprehensive and sometimes you just want a straight answer, I get it.
+
+##### Vue Lifecycle Hooks
+
+###### 1. <code>beforeCreate()</code>
+
+Before the component is created, you can perform any setup that **doesn't require the component's reactive data**. However, since Vue 3's Composition API doesn't have a direct equivalent to `beforeCreate()`, this hook is redundant. If necessary, you can accomplish the same thing in the `setup()` function by initializing non-reactive properties or doing computations.
+
+```javascript
+// Using setup()
+export default {
+  setup() {
+    // Non-reactive setup
+    let initialValue = 10;
+
+    // Cannot use reactive properties here, as Vue hasn't initialized them yet
+    console.log('beforeCreate - Initial value:', initialValue);
+  }
+}
+```
+
+```javascript
+// Using <script setup>
+<script setup>
+  // Non-reactive setup
+  let initialValue = 10;
+
+  console.log('beforeCreate - Initial value:', initialValue);
+</script>
+```
+
+###### 2. <code>created()</code>
+
+You can perform initial data fetching or other side-effects here, after Vue has initialized the component’s data.
+
+```javascript
+// Using setup()
+import { ref, reactive, onCreated } from 'vue';
+
+export default {
+  setup() {
+    const counter = ref(0);
+    const user = reactive({ name: 'John Doe' });
+
+    onCreated(() => {
+      // Fetch data after the component is created
+      console.log('created - Initial counter:', counter.value);
+      counter.value = 5;  // Update reactive state
+    });
+
+    return { counter, user };
+  }
+}
+```
+
+```javascript
+// Using <script setup>
+<script setup>
+  import { ref, reactive, onCreated } from 'vue';
+
+  const counter = ref(0);
+  const user = reactive({ name: 'John Doe' });
+
+  onCreated(() => {
+    console.log('created - Initial counter:', counter.value);
+    counter.value = 5;
+  });
+</script>
+```
+
+###### 3. <code>beforeMount()</code>
+
+Use this hook to **set up data** or make final preparations **before** the component is mounted to the DOM. It's a good place to modify properties or calculate values that depend on the component's state.
+
+```javascript
+// Using setup()
+import { ref, onBeforeMount } from 'vue';
+
+export default {
+  setup() {
+    const message = ref('');
+
+    onBeforeMount(() => {
+      // Modify state before mounting
+      message.value = 'Component is about to be mounted!';
+    });
+
+    return { message };
+  }
+}
+```
+
+```javascript
+// Using <script setup>
+<script setup>
+  import { ref, onBeforeMount } from 'vue';
+
+  const message = ref('');
+
+  onBeforeMount(() => {
+    message.value = 'Component is about to be mounted!';
+  });
+</script>
+```
+
+###### 4. <code>mounted()</code>
+
+Use this hook to **interact with the DOM** after it’s mounted, like initializing third-party libraries or performing DOM-related tasks.
+
+```javascript
+// Using setup()
+import { ref, onMounted } from 'vue';
+
+export default {
+  setup() {
+    const isLoaded = ref(false);
+
+    onMounted(() => {
+      // Simulate an async data load (e.g., fetch request)
+      setTimeout(() => {
+        isLoaded.value = true;
+        console.log('Mounted - Data loaded');
+      }, 1000);
+    });
+
+    return { isLoaded };
+  }
+}
+```
+
+```javascript
+// Using <script setup>
+<script setup>
+  import { ref, onMounted } from 'vue';
+
+  const isLoaded = ref(false);
+
+  onMounted(() => {
+    setTimeout(() => {
+      isLoaded.value = true;
+      console.log('Mounted - Data loaded');
+    }, 1000);
+  });
+</script>
+```
+
+###### 5. <code>beforeUpdate()</code>
+
+Use this hook when you need to **perform an action just before the DOM is updated** (e.g., logging state changes or preparing for an update).
+
+```javascript
+// Using setup()
+import { ref, onBeforeUpdate } from 'vue';
+
+export default {
+  setup() {
+    const count = ref(0);
+
+    onBeforeUpdate(() => {
+      console.log('beforeUpdate - count is about to change:', count.value);
+    });
+
+    return { count };
+  }
+}
+```
+
+```javascript
+// Using <script setup>
+<script setup>
+  import { ref, onBeforeUpdate } from 'vue';
+
+  const count = ref(0);
+
+  onBeforeUpdate(() => {
+    console.log('beforeUpdate - count is about to change:', count.value);
+  });
+</script>
+```
+
+###### 6. <code>updated()</code>
+
+This hook is useful if you need to **react to data changes** after the DOM has been updated. For instance, you could update a chart after the data is modified.
+
+```javascript
+// Using setup()
+import { ref, onUpdated } from 'vue';
+
+export default {
+  setup() {
+    const count = ref(0);
+
+    onUpdated(() => {
+      // Log data after DOM update
+      console.log('updated - count has been updated:', count.value);
+    });
+
+    return { count };
+  }
+}
+```
+
+```javascript
+// Using <script setup>
+<script setup>
+  import { ref, onUpdated } from 'vue';
+
+  const count = ref(0);
+
+  onUpdated(() => {
+    console.log('updated - count has been updated:', count.value);
+  });
+</script>
+```
+
+###### 7. <code>beforeUnmount()</code>
+
+Use this hook for **cleanup tasks** before the component is removed from the DOM, such as clearing timers or removing event listeners.
+
+```javascript
+// Using setup()
+import { onBeforeUnmount } from 'vue';
+
+export default {
+  setup() {
+    const timer = setInterval(() => {
+      console.log('Timer running...');
+    }, 1000);
+
+    onBeforeUnmount(() => {
+      clearInterval(timer);
+      console.log('beforeUnmount - Timer cleared');
+    });
+  }
+}
+```
+
+```javascript
+// Using <script setup>
+<script setup>
+  import { onBeforeUnmount } from 'vue';
+
+  const timer = setInterval(() => {
+    console.log('Timer running...');
+  }, 1000);
+
+  onBeforeUnmount(() => {
+    clearInterval(timer);
+    console.log('beforeUnmount - Timer cleared');
+  });
+</script>
+```
+
+###### 8. <code>unmounted()</code>
+
+This is where you perform **final cleanup operations** when the component is fully destroyed, such as cancelling network requests or clearing any leftover resources.
+
+```javascript
+// Using setup()
+import { onUnmounted } from 'vue';
+
+export default {
+  setup() {
+    const websocket = new WebSocket('ws://example.com');
+
+    onUnmounted(() => {
+      websocket.close();
+      console.log('unmounted - WebSocket connection closed');
+    });
+  }
+}
+```
+
+```javascript
+// Using <script setup>
+<script setup>
+  import { onUnmounted } from 'vue';
+
+  const websocket = new WebSocket('ws://example.com');
+
+  onUnmounted(() => {
+    websocket.close();
+    console.log('unmounted - WebSocket connection closed');
+  });
+</script>
+```
+
+###### 9. <code>activated()</code>
+
+When using keep-alive to cache components, you can use this hook to **reinitialize or refresh data** whenever the component is brought back into view.
+
+```javascript
+// Using setup()
+import { ref, onActivated } from 'vue';
+
+export default {
+  setup() {
+    const message = ref('');
+
+    onActivated(() => {
+      message.value = 'Component re-activated!';
+      console.log(message.value);
+    });
+
+    return { message };
+  }
+}
+```
+
+```javascript
+// Using <script setup>
+<script setup>
+  import { ref, onActivated } from 'vue';
+
+  const message = ref('');
+
+  onActivated(() => {
+    message.value = 'Component re-activated!';
+    console.log(message.value);
+  });
+</script>
+```
+
+###### 10. <code>deactivated()</code>
+
+When using keep-alive, this hook allows you to **pause** or **stop** activities (like timers or animations) when the component is no longer active.
+
+```javascript
+// Using setup()
+import { ref, onDeactivated } from 'vue';
+
+export default {
+  setup() {
+    const videoPlaying = ref(false);
+
+    onDeactivated(() => {
+      videoPlaying.value = false;
+      console.log('deactivated - Paused video');
+    });
+
+    return { videoPlaying };
+  }
+}
+```
+
+```javascript
+// Using <script setup>
+<script setup>
+  import { ref, onDeactivated } from 'vue';
+
+  const videoPlaying = ref(false);
+
+  onDeactivated(() => {
+    videoPlaying.value = false;
+    console.log('deactivated - Paused video');
+  });
+</script>
+```
+
+###### 11. <code>errorCaptured()</code>
+
+You can use this hook to **catch errors** thrown by any descendant component and handle them accordingly.
+
+```javascript
+// Using setup()
+import { onErrorCaptured } from 'vue';
+
+export default {
+  setup() {
+    onErrorCaptured((err, instance, info) => {
+      console.error('Error captured:', err);
+      return false; // Stop the error from propagating
+    });
+  }
+}
+```
+
+```javascript
+// Using <script setup>
+<script setup>
+  import { onErrorCaptured } from 'vue';
+
+  onErrorCaptured((err, instance, info) => {
+    console.error('Error captured:', err);
+    return false;  // Prevent error from propagating
+  });
+</script>
+```
+
+
+###### Conclusion
+
+These are just some practical examples that demonstrate Vue lifecycle hooks with some basic use cases. Hopefully this makes some sense to you and saves you some time sifting through docs or reading comprehensive examples.
