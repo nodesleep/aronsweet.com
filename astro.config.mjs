@@ -12,6 +12,13 @@ export default defineConfig({
   integrations: [mdx(), icon()],
 
   vite: {
-    plugins: [tailwindcss()]
-  }
+    plugins: [tailwindcss()],
+  },
+
+  markdown: {
+    shikiConfig: {
+      theme: "poimandres",
+      wrap: true,
+    },
+  },
 });
